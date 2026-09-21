@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIMind Vault — AI API Key Manager</title>
+  <meta name="description" content="Secure dashboard for managing your AI API keys across OpenAI, Anthropic, Google, DeepSeek and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.8em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"AIMind Vault","description":"Secure dashboard for managing your AI API keys","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="key-manager.html">Key Manager</a>
+        <a href="profile.html">Profiles</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="t-hero" style="--acc:#10b981">
+      <div class="wrap">
+        <div class="t-hero-grid">
+          <div class="t-hero-info">
+            <h1>AIMind Vault</h1>
+            <p class="t-hero-desc">Secure, encrypted storage for your AI API keys. No data leaves your device.</p>
+            <div class="t-hero-actions">
+              <a class="btn btn-primary" href="key-manager.html">Add New Key</a>
+              <a class="btn btn-ghost" href="settings.html">Settings</a>
+            </div>
+          </div>
+          <div class="t-hero-card">
+            <div class="mock-browser"><span></span><span></span><span></span></div>
+            <img class="hero-shot" src="https://uiuxlabz.github.io/admin-dashboard-html-template/screenshot.png" alt="AIMind Vault Dashboard" loading="lazy" width="800" height="450">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head"><h2>Your API Keys</h2><p>Manage and monitor your AI service credentials</p></div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Total Keys</span>
+            <span class="kpi-value" id="total-keys">3</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Active Keys</span>
+            <span class="kpi-value success">2</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Encrypted</span>
+            <span class="kpi-value">100%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head"><h2>Saved Keys</h2><p>Your configured API keys</p></div>
+      <div class="table-scroll">
+        <table class="key-table">
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Models</th>
+              <th>Status</th>
+              <th>Last Used</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="keys-table-body">
+            <tr>
+              <td><img src="assets/img/openai.svg" alt="OpenAI" class="provider-icon"> OpenAI</td>
+              <td>gpt-4, gpt-3.5-turbo</td>
+              <td><span class="status status-active">Active</span></td>
+              <td>2 hours ago</td>
+              <td><a href="#" class="btn btn-sm btn-ghost">Copy Config</a> <a href="#" class="btn btn-sm btn-outline">Edit</a></td>
+            </tr>
+            <tr>
+              <td><img src="assets/img/deepseek.svg" alt="DeepSeek" class="provider-icon"> DeepSeek</td>
+              <td>deepseek-chat, deepseek-coder</td>
+              <td><span class="status status-active">Active</span></td>
+              <td>1 day ago</td>
+              <td><a href="#" class="btn btn-sm btn-ghost">Copy Config</a> <a href="#" class="btn btn-sm btn-outline">Edit</a></td>
+            </tr>
+            <tr>
+              <td><img src="assets/img/anthropic.svg" alt="Anthropic" class="provider-icon"> Anthropic</td>
+              <td>claude-3-opus</td>
+              <td><span class="status status-restricted">Restricted</span></td>
+              <td>3 days ago</td>
+              <td><a href="#" class="btn btn-sm btn-ghost">Copy Config</a> <a href="#" class="btn btn-sm btn-outline">Edit</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+          <p>Secure, encrypted storage for your AI API keys. No data leaves your device.</p>
+        </div>
+        <div>
+          <h3>Support</h3>
+          <a href="https://github.com/mohsen-niksirat/AIMind-Vault" target="_blank">GitHub</a>
+          <a href="https://github.com/mohsen-niksirat/AIMind-Vault#readme">Documentation</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year></span> AIMind Vault - MIT Licensed</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/vault.js"></script>
+</body>
+</html>
