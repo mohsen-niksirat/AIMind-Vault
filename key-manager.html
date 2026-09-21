@@ -37,12 +37,7 @@
             <form id="key-form" class="form-section">
               <div class="form-group">
                 <label for="provider">Provider</label>
-                <select id="provider" name="provider">
-                  <option value="openai">OpenAI</option>
-                  <option value="deepseek">DeepSeek</option>
-                  <option value="anthropic">Anthropic</option>
-                  <option value="google">Google AI</option>
-                </select>
+                <select id="provider" name="provider"></select>
               </div>
 
               <div class="form-group">
@@ -91,24 +86,54 @@
 
   <script src="assets/js/vault.js"></script>
   <script>
-    document.getElementById('key-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const data = new FormData(this);
-      const keyData = {
-        providerId: data.get('provider'),
-        providerName: this.querySelector('#provider option:checked').textContent,
-        apiKey: data.get('apiKey'),
-        models: data.get('models'),
-        name: data.get('name') || `${this.querySelector('#provider option:checked').textContent} Key`
-      };
-      
-      if (vault.addKey) {
-        vault.addKey(keyData);
-        alert('API Key added successfully!');
-      } else {
-        console.log('Key would be added:', keyData);
-        alert('Key added temporarily (vault not fully initialized)');
+    document.addEventListener('DOMContentLoaded', () => {
+      const providerSelect = document.getElementById('provider');
+      const modelsInput = document.getElementById('models');
+      const apiKeyInput = document.getElementById('api-key');
+
+      function loadProvidersIntoForm() {
+        const options = vault.getProviderOptionsForForm();
+        providerSelect.innerHTML = options.map(o =>
+          `<option value="${o.id}" data-type="${o.type}">${o.name}</option>`
+        ).join('');
+
+        const first = options[0];
+        if (first) {
+          modelsInput.value = first.models.join(', ');
+          apiKeyInput.required = first.type !== 'free';
+        }
       }
+
+      providerSelect.addEventListener('change', () => {
+        const opt = providerSelect.options[providerSelect.selectedIndex];
+        const provider = vault.getProviderConfig(opt.value);
+        modelsInput.value = (provider.models || []).join(', ');
+        apiKeyInput.required = opt.dataset.type !== 'free';
+        apiKeyInput.placeholder = opt.dataset.type === 'free'
+          ? 'No key required — leave empty'
+          : 'sk-your-key-here';
+      });
+
+      loadProvidersIntoForm();
+
+      // Preselect provider from URL (?provider=openai)
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('provider')) {
+        providerSelect.value = params.get('provider');
+        providerSelect.dispatchEvent(new Event('change'));
+      }
+
+      document.getElementById('key-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const data = new FormData(this);
+        const selected = providerSelect.options[providerSelect.selectedIndex];
+        vault.addKey({
+          providerId: data.get('provider'),
+          apiKey: data.get('apiKey'),
+          models: data.get('models'),
+          name: data.get('name') || `${selected.textContent} Key`
+        });
+      });
     });
   </script>
 </body>

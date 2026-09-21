@@ -107,7 +107,9 @@ class AIMindVault {
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:8px">
-            ${key.icon ? `<img src="${key.icon}" alt="${key.providerName}" class="provider-icon" width="24" height="24">` : ''}
+            <span style="display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px;font-weight:700;flex-shrink:0">
+              ${(key.providerName || '?').charAt(0).toUpperCase()}
+            </span>
             <span>${key.providerName}</span>
           </div>
         </td>
@@ -319,20 +321,22 @@ class AIMindVault {
   }
 
   /**
-   * Get provider configuration (checks both built-in and custom)
+   * Get provider configuration (checks built-in, free, and custom)
    */
   getProviderConfig(providerId) {
     const builtins = this.getBuiltInProviders();
-    
-    // Check built-in providers first
+    const free = this.getFreeProviders();
+
     if (builtins[providerId]) {
       return builtins[providerId];
     }
-    
-    // Check custom providers
-    const customProviders = this.getCustomProviders();
-    const customProvider = customProviders.find(p => p.id === providerId);
-    
+
+    if (free[providerId]) {
+      return free[providerId];
+    }
+
+    const customProvider = this.getCustomProviders().find(p => p.id === providerId);
+
     if (customProvider) {
       return {
         name: customProvider.name,
@@ -342,9 +346,23 @@ class AIMindVault {
         type: 'custom'
       };
     }
-    
-    // Fallback to OpenAI
+
     return builtins['openai'];
+  }
+
+  /**
+   * List every provider for the key-manager dropdown
+   */
+  getProviderOptionsForForm() {
+    const builtins = this.getBuiltInProviders();
+    const free = this.getFreeProviders();
+    const custom = this.getCustomProviders();
+
+    return [
+      ...Object.entries(builtins).map(([id, p]) => ({ id, name: p.name, type: 'builtin', models: p.models })),
+      ...Object.entries(free).map(([id, p]) => ({ id, name: `${p.name} — no key needed`, type: 'free', models: p.models })),
+      ...custom.map(p => ({ id: p.id, name: `${p.name} (custom)`, type: 'custom', models: p.models }))
+    ];
   }
 
   /**
