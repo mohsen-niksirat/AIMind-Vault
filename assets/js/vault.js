@@ -255,6 +255,46 @@ class AIMindVault {
   }
 
   /**
+   * Get free public API providers (no key required)
+   */
+  getFreeProviders() {
+    return {
+      'qwen-free': {
+        name: 'Qwen (Free)',
+        baseUrl: 'https://api.github.com/repos/Godde3s/qwen-free-api/raw/main/server.py',
+        models: ['qwen3-8b', 'qwen3-72b'],
+        icon: 'assets/img/qwen.svg',
+        type: 'free',
+        note: 'Community-run free API'
+      },
+      'gemini-free': {
+        name: 'Gemini (Guest)',
+        baseUrl: 'https://api.github.com/repos/Godde3s/gemini-free-api/raw/main/server.json',
+        models: ['gemini-pro'],
+        icon: 'assets/img/google.svg',
+        type: 'free',
+        note: 'No cookie required'
+      },
+      'glm-free': {
+        name: 'GLM-5.3',
+        baseUrl: 'https://api.github.com/repos/Godde3s/glm-free-api/raw/main/server.py',
+        models: ['glm-5-3'],
+        icon: 'assets/img/glm.svg',
+        type: 'free',
+        note: 'No browser required'
+      },
+      'deepseek-v4-flash': {
+        name: 'DeepSeek V4.1 Flash',
+        baseUrl: 'https://api.github.com/repos/Godde3s/deepseek-free-api/raw/main/server.py',
+        models: ['deepseek-chat', 'deepseek-expert'],
+        icon: 'assets/img/deepseek.svg',
+        type: 'free',
+        note: 'Chat and Expert models'
+      }
+    };
+  }
+
+  /**
    * Get custom providers from storage
    */
   getCustomProviders() {
