@@ -86,9 +86,21 @@ h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2}
 .form-section{max-width:800px;margin:0 auto}
 .form-group{margin-bottom:24px}
 .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#fff;font-size:15px}
-.form-group input,.form-group select{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:#e5e5e5;font-size:16px}
-.form-group input:focus{outline:none;border-color:var(--brand);background:#fff}
-.form-group input::placeholder{color:#94a3b8}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:14px 16px;border-radius:12px;
+  border:1px solid #4b5563;             /* visible border, not the near-invisible --line */
+  background:#1e293b;                    /* distinctly lighter than the #0f172a card behind it */
+  color:#f3f4f6;                         /* high contrast text */
+  font-size:16px;transition:border-color .15s,box-shadow .15s;
+}
+.form-group input::placeholder{color:#9ca3af}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  outline:none;border-color:var(--brand);
+  box-shadow:0 0 0 3px rgba(16,185,129,.25);   /* focus ring instead of a white flash */
+  background:#1e293b;                    /* stays dark — text stays visible */
+}
+/* checkbox + radio keep native look but readable */
+.form-group input[type="checkbox"],.form-group input[type="radio"]{width:auto;accent-color:var(--brand)}
 .btn-secondary{background:transparent;border-color:var(--line);color:var(--ink)}
 .btn-secondary:hover{background:var(--surface);border-color:var(--line)}
 
