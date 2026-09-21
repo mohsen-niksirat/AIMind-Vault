@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آی‌امیند والت</title>
+  <meta name="description" content="مدیر کلیدهای هوش مصنوعی رایگان و امن">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.8em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{--bg:#0a0a0a;--surface:#111827;--ink:#e5e5e5;--muted:#888ea1;--line:#1f2937;--brand:#10b981;--brand-2:#059669;--brand-ink:#047857;--radius:12px;--shadow:0 4px 6px rgba(0,0,0,.1);--shadow-lg:0 10px 15px rgba(0,0,0,.1)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;text-align:right}
+    body{font-family:'Vazirmatn','IranSans','Tahoma',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+    .hero{background:linear-gradient(135deg,#0f172a,#111827);color:#fff;padding:64px 0;text-align:right}
+    .hero h1{font-size:clamp(28px,4vw,42px);margin-bottom:20px}
+    .hero p{color:#cdd4e1}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;padding:12px 24px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:.22s}
+    .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:24px}
+    .feature-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:var(--shadow)}
+    .feature-card h3{margin:0 0 12px;color:#fff}
+    .feature-card p{color:#94a3b8;font-size:14px}
+  </style>
+</head>
+<body>
+  <header style="background:rgba(17,24,39,.95);padding:20px 0;border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <h1 style="margin:0;font-size:24px;font-weight:700;color:#fff">🔐 آی‌امیند والت</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1>مدیر کلیدهای هوش مصنوعی</h1>
+        <p>یک داشبورد امن برای مدیریت کلیدهای API شما. تمام داده‌ها در دستگاه شما باقی می‌مانند.</p>
+        <a href="index.html" class="btn btn-primary">شروع کنید</a>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:48px 0">
+      <h2 style="text-align:right;margin-bottom:32px;color:#fff">قابلیت‌ها</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h3>🔒 رمزگذاری امن</h3>
+          <p>کلیدهای شما با AES-GCM رمزگذاری می‌شوند</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔄 چندین پروژه</h3>
+          <p>پروفایل‌های جداگانه برای کار و شخصی</p>
+        </div>
+        <div class="feature-card">
+          <h3>⚡ دسترسی سریع</h5>
+          <p>کپی کانفیگ API با یک کلیک</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔗 پیوسته</h3>
+          <p>پشتیبانی از OpenAI، DeepSeek، Anthropic و بیشتر</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#0f172a;color:#fff;padding:48px 0;text-align:center">
+      <div class="wrap">
+        <h2 style="margin-bottom:16px">شروع کنید</h2>
+        <p style="color:#94a3b8;margin-bottom:24px">کلید API خود را اضافه کنید تا بتوانید از قابلیت‌ها استفاده کنید</p>
+        <a href="key-manager.html" class="btn btn-primary" style="font-size:18px;padding:16px 32px">کلید جدید اضافه کنید</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background:#0f172a;color:#94a3b8;padding:40px 0;border-top:1px solid var(--line);text-align:center">
+    <div class="wrap">
+      <p>© <span data-year></span> آی‌امیند والت - MIT Licensed</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/vault.js"></script>
+</body>
+</html>
