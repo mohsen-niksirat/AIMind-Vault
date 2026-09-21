@@ -537,6 +537,20 @@ class AIMindVault {
     
     return Object.entries(all).map(([id, p]) => ({ id, name: p.name }));
   }
+
+  /**
+   * Delete a custom provider
+   */
+  async deleteCustomProvider(providerId) {
+    if (!confirm('Are you sure you want to delete this provider?')) {
+      return;
+    }
+    
+    const customProviders = this.getCustomProviders();
+    const filtered = customProviders.filter(p => p.id !== providerId);
+    this.saveCustomProviders(filtered);
+    this.showNotification('Provider deleted!', 'success');
+  }
 }
 
 // Add CSS animations

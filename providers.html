@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Providers - AIMind Vault</title>
+  <meta name="description" content="Manage your AI providers - built-in and custom">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.8em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html">Dashboard</a>
+        <a href="key-manager.html">Key Manager</a>
+        <a href="providers.html" class="active">Providers</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="t-hero" style="--acc:#10b981">
+      <div class="wrap">
+        <div class="t-hero-grid">
+          <div class="t-hero-info">
+            <h1>AI Providers</h1>
+            <p class="t-hero-desc">Manage your AI providers. Add custom providers or configure existing ones.</p>
+            <div class="t-hero-actions">
+              <button onclick="openAddProviderModal()" class="btn btn-primary">Add Provider</button>
+            </div>
+          </div>
+          <div class="t-hero-card">
+            <img src="https://uiuxlabz.github.io/admin-dashboard-html-template/screenshot.png" alt="Providers" loading="lazy" width="800" height="450" style="border-radius:12px">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head"><h2>Built-in Providers</h2><p>Pre-configured providers that work out of the box</p></div>
+      <div class="t-grid">
+        <div class="t-card" style="border-left: 4px solid #fff;">
+          <div style="padding: 16px">
+            <h3 style="margin:0 0 8px;color:#fff">OpenAI</h3>
+            <p style="color:#94a3b8;font-size:14px;margin:0 0 12px">gpt-4, gpt-3.5-turbo, gpt-4o, gpt-4-turbo</p>
+            <a href="key-manager.html?provider=openai" class="btn btn-sm btn-primary">Add Key</a>
+          </div>
+        </div>
+        <div class="t-card" style="border-left: 4px solid #ff6b35;">
+          <div style="padding: 16px">
+            <h3 style="margin:0 0 8px;color:#fff">DeepSeek</h3>
+            <p style="color:#94a3b8;font-size:14px;margin:0 0 12px">deepseek-chat, deepseek-coder, deepseek-vision</p>
+            <a href="key-manager.html?provider=deepseek" class="btn btn-sm btn-primary">Add Key</a>
+          </div>
+        </div>
+        <div class="t-card" style="border-left: 4px solid #ff6b35;">
+          <div style="padding: 16px">
+            <h3 style="margin:0 0 8px;color:#fff">Anthropic</h3>
+            <p style="color:#94a3b8;font-size:14px;margin:0 0 12px">claude-3-opus, claude-3-sonnet, claude-3-haiku</p>
+            <a href="key-manager.html?provider=anthropic" class="btn btn-sm btn-primary">Add Key</a>
+          </div>
+        </div>
+        <div class="t-card" style="border-left: 4px solid #4285f4;">
+          <div style="padding: 16px">
+            <h3 style="margin:0 0 8px;color:#fff">Google AI</h3>
+            <p style="color:#94a3b8;font-size:14px;margin:0 0 12px">gemini-pro, gemini-pro-vision</p>
+            <a href="key-manager.html?provider=google" class="btn btn-sm btn-primary">Add Key</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:48px 0">
+      <div class="section-head"><h2>Custom Providers</h2><p>Add your own AI providers</p></div>
+      
+      <div id="custom-providers-list">
+        <div style="text-align:center;padding:40px;color:#94a3b8">
+          No custom providers yet. Click "Add Provider" to add one!
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Provider Modal -->
+  <div id="add-provider-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center">
+    <div style="background:#111827;border-radius:16px;padding:32px;margin:20px;max-width:500px;width:90%;color:#e5e5e5">
+      <h2 style="margin:0 0 20px;color:#fff">Add Custom Provider</h2>
+      <div class="form-group">
+        <label for="provider-name">Provider Name</label>
+        <input type="text" id="provider-name" placeholder="e.g., Cohere, Together AI">
+      </div>
+      <div class="form-group">
+        <label for="provider-base-url">Base URL</label>
+        <input type="url" id="provider-base-url" placeholder="https://api.example.com/v1">
+      </div>
+      <div class="form-group">
+        <label for="provider-models">Models (comma separated)</label>
+        <input type="text" id="provider-models" placeholder="command, chat, embed">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:32px">
+        <button onclick="saveCustomProvider()" class="btn btn-primary">Save</button>
+        <button onclick="closeAddProviderModal()" class="btn btn-ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+          <p>Secure, encrypted storage for your AI API keys. No data leaves your device.</p>
+        </div>
+        <div>
+          <h3>Support</h3>
+          <a href="https://github.com/mohsen-niksirat/AIMind-Vault" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year></span> AIMind Vault - MIT Licensed</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/vault.js"></script>
+  <script>
+    function openAddProviderModal() {
+      document.getElementById('add-provider-modal').style.display = 'flex';
+    }
+
+    function closeAddProviderModal() {
+      document.getElementById('add-provider-modal').style.display = 'none';
+      document.getElementById('provider-name').value = '';
+      document.getElementById('provider-base-url').value = '';
+      document.getElementById('provider-models').value = '';
+    }
+
+    async function saveCustomProvider() {
+      const name = document.getElementById('provider-name').value.trim();
+      const baseUrl = document.getElementById('provider-base-url').value.trim();
+      const models = document.getElementById('provider-models').value.trim();
+
+      if (!name || !baseUrl) {
+        alert('Please fill in the provider name and base URL');
+        return;
+      }
+
+      const providerData = { name, baseUrl, models };
+      vault.addCustomProvider(providerData);
+      
+      closeAddProviderModal();
+      await loadCustomProviders();
+    }
+
+    async function loadCustomProviders() {
+      const customProviders = vault.getCustomProviders();
+      const list = document.getElementById('custom-providers-list');
+      
+      if (!customProviders || customProviders.length === 0) {
+        list.innerHTML = `
+          <div style="text-align:center;padding:40px;color:#94a3b8">
+            No custom providers yet. Click "Add Provider" to add one!
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = customProviders.map(p => `
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:var(--shadow)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h4 style="margin:0;color:#fff">${p.name}</h4>
+              <p style="color:#94a3b8;font-size:13px;margin:4px 0">${p.baseUrl}</p>
+              <p style="color:#888;font-size:12px;margin:0">Models: ${p.models.join(', ')}</p>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onclick="alert('Edit not implemented yet')" class="btn btn-sm btn-ghost">Edit</button>
+              <button onclick="vault.deleteCustomProvider('${p.id}')" class="btn btn-sm btn-ghost" style="color:#ef4444;border-color:#ef4444">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadCustomProviders();
+    });
+  </script>
+</body>
+</html>
