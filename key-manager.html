@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add API Key - AIMind Vault</title>
+  <meta name="description" content="Add and manage your AI API keys securely">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.8em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html">Dashboard</a>
+        <a href="key-manager.html" class="active">Key Manager</a>
+        <a href="profile.html">Profiles</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="t-hero" style="--acc:#10b981">
+      <div class="wrap">
+        <div class="t-hero-grid">
+          <div class="t-hero-info">
+            <h1>Add New API Key</h1>
+            <p class="t-hero-desc">Add your AI provider credentials securely. All keys are encrypted locally.</p>
+          </div>
+          <div class="t-hero-card">
+            <form id="key-form" class="form-section">
+              <div class="form-group">
+                <label for="provider">Provider</label>
+                <select id="provider" name="provider">
+                  <option value="openai">OpenAI</option>
+                  <option value="deepseek">DeepSeek</option>
+                  <option value="anthropic">Anthropic</option>
+                  <option value="google">Google AI</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="api-key">API Key</label>
+                <input type="password" id="api-key" name="apiKey" placeholder="sk-your-key-here" required>
+              </div>
+
+              <div class="form-group">
+                <label for="models">Models (comma separated)</label>
+                <input type="text" id="models" name="models" placeholder="gpt-4, gpt-3.5-turbo" required>
+              </div>
+
+              <div class="form-group">
+                <label for="name">Profile Name</label>
+                <input type="text" id="name" name="name" placeholder="My OpenAI Key">
+              </div>
+
+              <div class="form-group" style="margin-top:32px;text-align:center">
+                <button type="submit" class="btn btn-primary">Save Key</button>
+                <a href="index.html" class="btn btn-ghost" style="margin-left:12px">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+          <p>Secure, encrypted storage for your AI API keys. No data leaves your device.</p>
+        </div>
+        <div>
+          <h3>Support</h3>
+          <a href="https://github.com/mohsen-niksirat/AIMind-Vault" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year></span> AIMind Vault - MIT Licensed</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/vault.js"></script>
+  <script>
+    document.getElementById('key-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      const keyData = {
+        providerId: data.get('provider'),
+        providerName: this.querySelector('#provider option:checked').textContent,
+        apiKey: data.get('apiKey'),
+        models: data.get('models'),
+        name: data.get('name') || `${this.querySelector('#provider option:checked').textContent} Key`
+      };
+      
+      if (vault.addKey) {
+        vault.addKey(keyData);
+        alert('API Key added successfully!');
+      } else {
+        console.log('Key would be added:', keyData);
+        alert('Key added temporarily (vault not fully initialized)');
+      }
+    });
+  </script>
+</body>
+</html>
