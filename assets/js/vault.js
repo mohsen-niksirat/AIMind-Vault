@@ -1,10 +1,10 @@
 // AIMind Vault - Core functionality
-// This file handles encryption, storage, and API key management
+// Handles encryption, storage, and API key management with custom providers support
 
 class AIMindVault {
   constructor() {
     this.storageKey = 'aimind_keys';
-    this.masterPassword = null;
+    this.providersStorageKey = 'aimind_custom_providers';
     this.init();
   }
 
@@ -14,10 +14,9 @@ class AIMindVault {
   async init() {
     this.setupNavigation();
     this.fillYear();
-    this.loadMasterPassword();
     
     if (document.getElementById('keys-table-body')) {
-      this.loadKeys();
+      await this.loadKeys();
     }
     
     if (document.getElementById('profiles-list')) {
@@ -220,36 +219,122 @@ class AIMindVault {
   }
 
   /**
-   * Get provider configuration
+   * Get built-in provider configurations
    */
-  getProviderConfig(providerId) {
-    const configs = {
+  getBuiltInProviders() {
+    return {
       'openai': {
         name: 'OpenAI',
         baseUrl: 'https://api.openai.com/v1',
         models: ['gpt-4', 'gpt-3.5-turbo', 'gpt-4o', 'gpt-4-turbo'],
-        icon: 'assets/img/openai.svg'
+        icon: 'assets/img/openai.svg',
+        type: 'builtin'
       },
       'deepseek': {
         name: 'DeepSeek',
         baseUrl: 'https://api.deepseek.com/v1',
         models: ['deepseek-chat', 'deepseek-coder', 'deepseek-vision'],
-        icon: 'assets/img/deepseek.svg'
+        icon: 'assets/img/deepseek.svg',
+        type: 'builtin'
       },
       'anthropic': {
         name: 'Anthropic',
         baseUrl: 'https://api.anthropic.com',
         models: ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'],
-        icon: 'assets/img/anthropic.svg'
+        icon: 'assets/img/anthropic.svg',
+        type: 'builtin'
       },
       'google': {
         name: 'Google AI',
         baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
         models: ['gemini-pro', 'gemini-pro-vision'],
-        icon: 'assets/img/google.svg'
+        icon: 'assets/img/google.svg',
+        type: 'builtin'
       }
     };
-    return configs[providerId] || configs['openai'];
+  }
+
+  /**
+   * Get custom providers from storage
+   */
+  getCustomProviders() {
+    try {
+      const stored = localStorage.getItem(this.providersStorageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Error reading custom providers:', e);
+      return [];
+    }
+  }
+
+  /**
+   * Save custom providers to storage
+   */
+  saveCustomProviders(providers) {
+    try {
+      localStorage.setItem(this.providersStorageKey, JSON.stringify(providers));
+    } catch (e) {
+      console.error('Error saving custom providers:', e);
+    }
+  }
+
+  /**
+   * Get provider configuration (checks both built-in and custom)
+   */
+  getProviderConfig(providerId) {
+    const builtins = this.getBuiltInProviders();
+    
+    // Check built-in providers first
+    if (builtins[providerId]) {
+      return builtins[providerId];
+    }
+    
+    // Check custom providers
+    const customProviders = this.getCustomProviders();
+    const customProvider = customProviders.find(p => p.id === providerId);
+    
+    if (customProvider) {
+      return {
+        name: customProvider.name,
+        baseUrl: customProvider.baseUrl,
+        models: customProvider.models,
+        icon: customProvider.icon || '',
+        type: 'custom'
+      };
+    }
+    
+    // Fallback to OpenAI
+    return builtins['openai'];
+  }
+
+  /**
+   * Add a custom provider
+   */
+  addCustomProvider(providerData) {
+    const customProviders = this.getCustomProviders();
+    const newProvider = {
+      id: 'custom_' + Date.now(),
+      name: providerData.name,
+      baseUrl: providerData.baseUrl,
+      models: providerData.models.split(',').map(m => m.trim()),
+      icon: providerData.icon || '',
+      createdAt: new Date().toISOString()
+    };
+    
+    customProviders.push(newProvider);
+    this.saveCustomProviders(customProviders);
+    this.showNotification(`Custom provider "${providerData.name}" added!`, 'success');
+    
+    return newProvider;
+  }
+
+  /**
+   * Get all available providers (built-in + custom)
+   */
+  getAllProviders() {
+    const builtins = this.getBuiltInProviders();
+    const custom = this.getCustomProviders();
+    return { ...builtins, ...Object.fromEntries(custom.map(p => [p.id, { ...p, type: 'custom' }])) };
   }
 
   /**
@@ -383,6 +468,74 @@ class AIMindVault {
         </div>
       `).join('');
     }
+  }
+
+  /**
+   * Export all custom providers
+   */
+  async exportCustomProviders() {
+    const customProviders = this.getCustomProviders();
+    const exportData = {
+      version: '1.0',
+      exported: new Date().toISOString(),
+      providers: customProviders
+    };
+    
+    const json = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'aimind-custom-providers.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    this.showNotification('Custom providers exported successfully!', 'success');
+  }
+
+  /**
+   * Import custom providers from JSON
+   */
+  async importCustomProviders(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          const existingProviders = this.getCustomProviders();
+          const allProviders = [...existingProviders, ...data.providers];
+          this.saveCustomProviders(allProviders);
+          this.showNotification('Custom providers imported successfully!', 'success');
+          resolve();
+        } catch (e) {
+          this.showNotification('Invalid file format', 'error');
+          reject(e);
+        }
+      };
+      reader.onerror = () => {
+        this.showNotification('Failed to read file', 'error');
+        reject(new Error('File read error'));
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  /**
+   * Get list of provider names for dropdown
+   */
+  getProviderNames() {
+    const builtins = this.getBuiltInProviders();
+    const custom = this.getCustomProviders();
+    const all = { ...builtins };
+    
+    custom.forEach(p => {
+      all[p.id] = p;
+    });
+    
+    return Object.entries(all).map(([id, p]) => ({ id, name: p.name }));
   }
 }
 
