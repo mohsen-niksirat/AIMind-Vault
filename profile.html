@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profiles - AIMind Vault</title>
+  <meta name="description" content="Manage your API key profiles">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.8em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html">Dashboard</a>
+        <a href="key-manager.html">Key Manager</a>
+        <a href="profile.html" class="active">Profiles</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="t-hero" style="--acc:#10b981">
+      <div class="wrap">
+        <div class="t-hero-grid">
+          <div class="t-hero-info">
+            <h1>Profiles</h1>
+            <p class="t-hero-desc">Manage your API key profiles. Create separate profiles for work, personal, and development.</p>
+          </div>
+          <div class="t-hero-card">
+            <div class="form-section">
+              <h3 style="margin-bottom:16px;color:#fff">Your Profiles</h3>
+
+              <div class="prof-card" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+                  <div>
+                    <h4 style="margin:0;color:#fff">Work</h4>
+                    <p style="color:#94a3b8;font-size:14px;margin:4px 0 0">3 keys • Project production</p>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <a href="#" class="btn btn-sm btn-outline">Switch</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prof-card" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+                  <div>
+                    <h4 style="margin:0;color:#fff">Personal</h4>
+                    <p style="color:#94a3b8;font-size:14px;margin:4px 0 0">2 keys • Personal projects</p>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <a href="#" class="btn btn-sm btn-outline">Switch</a>
+                  </div>
+                </div>
+              </div>
+
+              <a href="key-manager.html" class="btn btn-primary" style="width:100%;justify-content:center;display:flex;gap:8px">➕ Create New Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="index.html"><span class="logo-mark">🔐</span><span class="logo-text">AIMind</span><span class="logo-text2">Vault</span></a>
+          <p>Secure, encrypted storage for your AI API keys. No data leaves your device.</p>
+        </div>
+        <div>
+          <h3>Support</h3>
+          <a href="https://github.com/mohsen-niksirat/AIMind-Vault" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year></span> AIMind Vault - MIT Licensed</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/vault.js"></script>
+</body>
+</html>
